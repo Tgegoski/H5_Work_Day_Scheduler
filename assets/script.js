@@ -59,4 +59,6 @@ var time = moment().format('kk');
   button.on('click', function (event) {
     $('selector').css('cursor', 'i');
   });
+
+  currentTime();
 });
