@@ -1,64 +1,52 @@
 $(document).ready(function () {
-  $('#currentDay').html(moment().format('MMMM Do YYYY, h:mm:ss a'));
 
-  function update() {
+ // function to save notes
+  $('.saveBtn').on('click', function () {
+    console.log(this);
+    var value = $(this).siblings('.description').val();
+    var time = $(this).parent().attr('id');
 
-  $('#currentDay').html(moment().format('MMMM Do YYYY, h:mm:ss a'));
-}
-setInterval(update, 1000);
+    localStorage.setItem(time, value);
+  });
+  
+  function updatePlanner() {
+    var currentHour = moment().hour();
 
-var button = $('saveBtn');
-var time = moment().format('kk');
-// function to save notes
-
-
-  function currentTime() {
-    var current = moment().hours();
-    var time = $('.time-block');
 // function to change color based on present, past and future
 // array to loop through times for color blocks
+    $('.time-block').each(function () {
+      var timeBlockHour = parseInt($(this).attr('id').split('hour')[1]);
 
-    time.each(function () {
-      var hour = parseInt($(this).attr('id'));
-
-      if (hour === current) {
-        $(this)
-          .children('.col-sm-10')
-          .attr('class', 'present col-sm-10 description');
-      } else if (current > hour) {
-        $(this)
-          .children('.col-sm-10')
-          .attr('class', 'past col-sm-10 description');
+      if (timeBlockHour < currentHour) {
+        $(this).removeClass('future');
+        $(this).removeClass('present');
+        $(this).addClass('past');
+      } else if (timeBlockHour === currentHour) {
+        $(this).removeClass('past');
+        $(this).removeClass('future');
+        $(this).addClass('present');
       } else {
-        $(this)
-          .children('.col-sm-10')
-          .attr('class', 'future col-sm-10 description');
+        $(this).removeClass('present');
+        $(this).removeClass('past');
+        $(this).addClass('future');
       }
     });
   }
-  currentTime();
 
-  button.on('click', function (event) {
-    event.preventDefault();
-    var text = $(this).siblings('.col-sm-10').val().replace(/['"]+/g, '');
-    var parent = $(this).parent().attr('id');
-    localStorage.setItem(parent, JSON.stringify(text));
-  });
+  var interval = setInterval(updatePlanner, 15000);
 
-//  function to save notes to local storage
-  $('#9 textarea').val(localStorage.getItem('9').replace(/['"]+/g, ''));
-  $('#10 textarea').val(localStorage.getItem('10').replace(/['"]+/g, ''));
-  $('#11 textarea').val(localStorage.getItem('11').replace(/['"]+/g, ''));
-  $('#12 textarea').val(localStorage.getItem('12').replace(/['"]+/g, ''));
-  $('#13 textarea').val(localStorage.getItem('13').replace(/['"]+/g, ''));
-  $('#14 textarea').val(localStorage.getItem('14').replace(/['"]+/g, ''));
-  $('#15 textarea').val(localStorage.getItem('15').replace(/['"]+/g, ''));
-  $('#16 textarea').val(localStorage.getItem('16').replace(/['"]+/g, ''));
-  $('#17 textarea').val(localStorage.getItem('17').replace(/['"]+/g, ''));
+  $('#9hour.description').val(localStorage.getItem('9hour'));
+  $('#10hour.description').val(localStorage.getItem('10hour'));
+  $('#11hour.description').val(localStorage.getItem('11hour'));
+  $('#12hour.description').val(localStorage.getItem('12hour'));
+  $('#13hour.description').val(localStorage.getItem('13hour'));
+  $('#14hour.description').val(localStorage.getItem('14hour'));
+  $('#15hour.description').val(localStorage.getItem('15hour'));
+  $('#16hour.description').val(localStorage.getItem('16hour'));
+  $('#17hour.description').val(localStorage.getItem('17hour'));
 
-  button.on('click', function (event) {
-    $('selector').css('cursor', 'i');
-  });
+  $('#currentDay').text(moment().format('MMMM Do YYYY, h:mm:ss a'));  
 
-  currentTime();
+  updatePlanner();
 });
+
