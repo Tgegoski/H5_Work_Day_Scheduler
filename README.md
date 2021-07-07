@@ -24,6 +24,11 @@ Also had issues getting the text to save to local storage.
 
 ### Links to application
 
+GitHub Repo:
+https://github.com/Tgegoski/H5_Work_Day_Scheduler.git
+
+Deployed Application:
+https://tgegoski.github.io/H5_Work_Day_Scheduler/
 
 
 
